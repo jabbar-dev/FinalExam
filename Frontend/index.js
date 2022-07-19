@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import 'antd/dist/antd.min.css'; 
 
-
+//Rende the App component to the DOM
 ReactDOM.render(
   <React.StrictMode>
     <App />
