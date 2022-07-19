@@ -40,6 +40,33 @@ function App() {
 
 
 
+  const handleAddBookmark = async () =>{
+
+    setAddModelOpen(false)
+    setName("")
+    setURL("")
+    await axios.post("http://localhost:4000/addbookmark",
+    {     
+        name:name,
+        url:URL
+    }
+    )
+    await axios.get("http://localhost:4000/getbookmarks").then(
+      res => {return setBookmarks(res.data.bookmarks)
+      }
+    )
+
+  }
+
+  //Delete Bookmark
+  const deleteBookmark = async (id) =>{
+    await axios.post(`http://localhost:4000/deletebookmark/${id}`)
+    await axios.get("http://localhost:4000/getbookmarks").then(
+      res => {return setBookmarks(res.data.bookmarks)
+      }
+    )
+  }
+
 return (
     <div className="App">
         <div className="Navbar" style={{minWidth:"1000px",display:"flex",justifyContent:"space-between"}}>
