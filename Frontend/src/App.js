@@ -11,11 +11,12 @@ function App() {
   const [edit,setEdit]=useState(false)
   const [name, setName] = useState("")
   const [URL, setURL] = useState("")
+  const [count, setCount] = useState(0)
 
   const [bookmarks,setBookmarks]=useState([])
 
   useEffect(() => {
-      axios.get("http://localhost:4000/getbookmarks").then(
+      axios.get("http://localhost:3600/getbookmarks").then(
         res => {return setBookmarks(res.data.bookmarks)
         }
       )
@@ -25,13 +26,13 @@ function App() {
   const searchBookmarks =(event) =>{
       setValue(event.target.value)
       if(event.target.value){
-        axios.get("http://localhost:4000/getbookmark/"+event.target.value)
+        axios.get("http://localhost:3600/getbookmark/"+event.target.value)
         .then(
           res => {return setBookmarks(res.data.bookmarks)}
         )
       }
       else{
-        axios.get("http://localhost:4000/getbookmarks").then(
+        axios.get("http://localhost:3600/getbookmarks").then(
           res => {return setBookmarks(res.data.bookmarks)
           }
         )  
@@ -43,13 +44,13 @@ function App() {
     setAddModelOpen(false)
     setName("")
     setURL("")
-    await axios.post("http://localhost:4000/addbookmark",
+    await axios.post("http://localhost:3600/addbookmark",
     {     
         name:name,
         url:URL
     }
     )
-    await axios.get("http://localhost:4000/getbookmarks").then(
+    await axios.get("http://localhost:3600/getbookmarks").then(
       res => {return setBookmarks(res.data.bookmarks)
       }
     )
@@ -57,8 +58,8 @@ function App() {
   }
 
   const deleteBookmark = async (id) =>{
-    await axios.post(`http://localhost:4000/deletebookmark/${id}`)
-    await axios.get("http://localhost:4000/getbookmarks").then(
+    await axios.post(`http://localhost:3600/deletebookmark/${id}`)
+    await axios.get("http://localhost:3600/getbookmarks").then(
       res => {return setBookmarks(res.data.bookmarks)
       }
     )
@@ -71,14 +72,16 @@ function App() {
 
   return (
     <div className="App">
-        <div className="Navbar" style={{minWidth:"1000px",display:"flex",justifyContent:"space-between"}}>
-          <h2 style={{margin:"15px"}}> Favourites</h2>
+        <div className="Navbar" style={{minWidth:"1000px",display:"flex"}}>
+          <div style={{margin:"15px"}}> ADD <br/>
+          <Button type="primary" onClick={() => setAddModelOpen(true)}>+</Button>      
+        </div>
+        <br/>
         <div style={{margin:"15px",minWidth:"500px"}}>
+          SEARCH
         <Input type="text" name="search" value={value} onChange={searchBookmarks}/>
         </div>
-        <div style={{margin:"15px"}}>
-          <Button type="primary" onClick={() => setAddModelOpen(true)}>Add</Button>      
-        </div>
+       
         </div>
 
 
@@ -119,20 +122,71 @@ function App() {
 
     <>
     <Divider orientation="left"></Divider>
-  
+    <div><h1>YOUR FAVOURITE</h1></div>
+
     <div>
-      <ul style={{border:"1px solid gray",borderRadius:"10px",margin:"20px"}}>
+      <ul style={{borderRadius:"10px",margin:"20px"}}>
         {
+         
           bookmarks.length > 0 ? bookmarks.map(itm=> 
-            { return <div key={itm._id} style={{padding:"15px",display:"flex",justifyContent:'space-between'}}> 
-               <div>
-                <span style={{fontSize:"22px",margin:"8px",paddingRight:"20px" }}> {(itm.name+"").charAt(0)}</span> {itm.url}
+
+            { return <div className='row' key={itm._id} style={{padding:"15px", margin: 0, display:"inline-block"}}> 
+               <div style={{background:"yellow", borderRadius:"10px"}}>
+                <span style={{fontSize:"35px",margin:"8px",paddingRight:"20px" }}> <a href = {"http://"+itm.url}>{(itm.name+"").charAt(0)}</a></span> 
                </div>
-              <div >
-                <Button type="primary" onClick={()=>updateBookmark(itm._id)}> Edit</Button>
-                <Button type='primary' danger onClick={()=>deleteBookmark(itm._id)}> Delete</Button>
+               
+              <div>
+                <Button type="btn btn-primary" onClick={()=>updateBookmark(itm._id)}> ...</Button>
+                <br/>
+                <Button type='primary' danger onClick={()=>deleteBookmark(itm._id)}> X</Button>
               </div>
             </div>}
+
+
+            
+
+            ) : ""
+        }
+      </ul>
+      
+    </div>
+
+    <Divider orientation="left"></Divider>
+
+
+    {/* MOST FREQUENT */}
+    <Divider orientation="left"></Divider>
+    <div><h1>MOST FREQUENT VISITED</h1></div>
+
+    <div>
+      <ul style={{borderRadius:"10px",margin:"20px"}}>
+        {
+         
+          bookmarks.length > 0 ? bookmarks.map(itm=> 
+            //show only 5 items 
+
+               
+                
+            { 
+              if(count<5){
+              return <div className='row' key={itm._id} style={{padding:"15px", margin: 0, display:"inline-block"}}> 
+               <div style={{background:"yellow", borderRadius:"10px"}}>
+                <span style={{fontSize:"35px",margin:"8px",paddingRight:"20px" }}> <a href = {"http://"+itm.url}>{(itm.name+"").charAt(0)}</a></span> 
+               </div>
+               
+              <div>
+                <Button type="btn btn-primary" onClick={()=>updateBookmark(itm._id)}> ...</Button>
+                <br/>
+                <Button type='primary' danger onClick={()=>deleteBookmark(itm._id)}> X</Button>
+                
+              </div>
+            </div>}
+            setCount(count+2)
+            }
+
+
+            
+
             ) : ""
         }
       </ul>
