@@ -23,6 +23,20 @@ return (
       <>
   {/* ADD */}
 
+  <Modal
+title="Add Bookmark"
+style={{ top: 20 }}
+visible={addModelOpen}
+onOk={() => handleAddBookmark()}
+onCancel={() => setAddModelOpen(false)}
+>
+<label>Name </label>
+<Input placeholder='Enter Name' value={name} onChange={(e)=> setName(e.target.value) }/> 
+
+<label>URL </label>
+<Input placeholder='Enter URl' value={URL} onChange={(e)=> setURL(e.target.value) }/> 
+
+</Modal>
       </>
       <>
  {/* Edit */}
