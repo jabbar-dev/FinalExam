@@ -41,6 +41,20 @@ onCancel={() => setAddModelOpen(false)}
       <>
  {/* Edit */}
 
+ <Modal
+title="Edit Bookmark"
+style={{ top: 20 }}
+visible={edit}
+onOk={() => setEdit(false)}
+onCancel={() => setEdit(false)}
+>
+<label>Name </label>
+<Input placeholder='Enter Name' value={name} onChange={(e)=> setName(e.target.value) }/> 
+
+<label>URL </label>
+<Input placeholder='Enter URl' value={URL} onChange={(e)=> setURL(e.target.value) }/> 
+
+</Modal>
       </>
 
     <>
