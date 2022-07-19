@@ -22,6 +22,23 @@ function App() {
   
     }, [])
 
+    const searchBookmarks =(event) =>{
+        setValue(event.target.value)
+        if(event.target.value){
+          axios.get("http://localhost:4000/getbookmark/"+event.target.value)
+          .then(
+            res => {return setBookmarks(res.data.bookmarks)}
+          )
+        }
+        else{
+          axios.get("http://localhost:4000/getbookmarks").then(
+            res => {return setBookmarks(res.data.bookmarks)
+            }
+          )  
+        }
+    }
+
+
 
 return (
     <div className="App">
