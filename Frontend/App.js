@@ -7,6 +7,22 @@ import axios from "axios"
 
 
 function App() {
+    const [value, setValue] = useState("")
+    const [addModelOpen,setAddModelOpen]=useState(false)
+    const [edit,setEdit]=useState(false)
+    const [name, setName] = useState("")
+    const [URL, setURL] = useState("")
+    const [bookmarks,setBookmarks]=useState([])
+
+    useEffect(() => {
+        axios.get("http://localhost:4000/getbookmarks").then(
+          res => {return setBookmarks(res.data.bookmarks)
+          }
+        )
+  
+    }, [])
+
+
 return (
     <div className="App">
         <div className="Navbar" style={{minWidth:"1000px",display:"flex",justifyContent:"space-between"}}>
