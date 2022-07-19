@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require("cors")
 const mongoose = require('mongoose');
-const Bookmark = require('./modals/Bookmark');
+const Bookmark = require('./models/Bookmark');
 
 
 
@@ -70,6 +70,6 @@ app.post('/updatebookmark/:id', async (req,res) => {
 
 
 // listen for requests
-app.listen(4000, () => {
-    console.log("Server is listening on port 3000");
+app.listen(6000, () => {
+    console.log("Server is listening on port 6000");
 });
